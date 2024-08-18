@@ -1,11 +1,20 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import {dirname} from 'path';
-import { fileURLToPath } from 'url';
+import mongoose from 'mongoose';
+import dotenv from "dotenv"
+
+dotenv.config()
+
+try {
+        mongoose.connect(process.env.DATABASE_URL)
+        console.log("Connected to database");
+} catch (error) {
+        console.error(error.message);
+}
+
 
 const app = express();
 const port = 3000;
-const __dirname = dirname(fileURLToPath(import.meta.url));
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('public'));
