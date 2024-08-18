@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 function Header() {
   return (
     <div className="bg-slate-300">
-      <div className="flex justify-between items-center mx-auto max-w-6xl p-3">
+      <div className="flex justify-between items-center mx-auto max-w-7xl p-3">
         <h1 className="font-bold">Auth App</h1>
         <ul className="flex gap-4">
           <Link to="/">
