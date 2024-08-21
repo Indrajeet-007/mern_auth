@@ -5,7 +5,6 @@ import SignUp from "./pages/SignUp";
 import Profile from "./pages/Profile";
 import SignIn from "./pages/signin";
 import Header from "./components/Header";
-
 function App() {
   return <BrowserRouter >
   <Header />

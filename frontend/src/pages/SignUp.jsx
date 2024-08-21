@@ -14,7 +14,7 @@ function SignUp() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form Data:", formData);
+    console.log("Form Data:", JSON.stringify(formData));
     if (formData.username && formData.password && formData.email) {
       try {
         const res = await fetch('/api/auth/signup',{
