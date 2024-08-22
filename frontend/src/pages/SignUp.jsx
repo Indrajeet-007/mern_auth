@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-
+import axios from 'axios'
+import { signup } from "../../../backend/controllers/auth.controller";
 function SignUp() {
   const [formData, setFormData] = useState({
     username: "",
     password: "",
     email: ""
   });
-
+  const [loading,setLoading] = useState(false);
+  const [error,setError] = useState(false);
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -15,22 +17,17 @@ function SignUp() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Form Data:", JSON.stringify(formData));
-    if (formData.username && formData.password && formData.email) {
       try {
-        const res = await fetch('/api/auth/signup',{
-          method: 'POST',
-          headers:{
-            'Content-Type': 'application/json',
-          },body: JSON.stringify(formData),
-        })
-        const data = await res.json();
-        console.log("Response Data:", data);
+        setLoading(true);
+        setError(false);
+        const res = await axios.post('/api/auth/signup',formData,{headers:{'Content-Type' : 'application/json'}});
+        console.log("Response Data:", res);
+        setLoading(false);
       } catch (error) {
+        setLoading(false);
+        setError(true);
         console.error("Error:", error.message);
       }
-    } else {
-      console.error("All fields are required!");
-    }
   };
 
   return (
@@ -62,18 +59,20 @@ function SignUp() {
           onChange={handleChange}
         />
         <button
+          disabled={loading}
           type="submit"
           className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 hover:bg-slate-800 disabled:opacity-90"
         >
-          Sign up
+         {loading? 'loading...' : 'signup'}
         </button>
       </form>
       <div className="flex gap-3 mt-5">
         <p>Have an account</p>
         <span className="text-blue-500">
-          <Link to="/sign-in">Sign In</Link>
+          <Link to="/sign-in">SignIn</Link>
         </span>
       </div>
+      <p className="text-red-600 mt-5">{error && 'Something went wrong'}</p>
     </div>
   );
 }
