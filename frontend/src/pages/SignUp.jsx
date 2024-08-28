@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import axios from 'axios'
 import { signup } from "../../../backend/controllers/auth.controller";
+
 function SignUp() {
   const [formData, setFormData] = useState({
     username: "",
@@ -10,6 +11,8 @@ function SignUp() {
   });
   const [loading,setLoading] = useState(false);
   const [error,setError] = useState(false);
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -23,6 +26,7 @@ function SignUp() {
         const res = await axios.post('/api/auth/signup',formData,{headers:{'Content-Type' : 'application/json'}});
         console.log("Response Data:", res);
         setLoading(false);
+        navigate('/sign-in')
       } catch (error) {
         setLoading(false);
         setError(true);
@@ -63,7 +67,7 @@ function SignUp() {
           type="submit"
           className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 hover:bg-slate-800 disabled:opacity-90"
         >
-         {loading? 'loading...' : 'signup'}
+         {loading? 'loading...' : 'sign up'}
         </button>
       </form>
       <div className="flex gap-3 mt-5">
